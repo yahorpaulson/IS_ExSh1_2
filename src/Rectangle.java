@@ -6,11 +6,6 @@ public class Rectangle implements IShape{
     private double length;
     private double width;
 
-    public Rectangle(){
-        this.length = length;
-        this.width = width;
-    }
-
     public void setLength(double length) {
         this.length = length;
     }

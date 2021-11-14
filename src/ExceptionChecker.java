@@ -1,3 +1,4 @@
+import javax.swing.*;
 
 /**
  * Name> Yahor Siarheyeu
@@ -9,7 +10,7 @@ public class ExceptionChecker {
         return !(A + B < C) && !(B + C < A) && !(C + A < B);
     }
 
-    public boolean checkNumber(String strNum) throws NumberFormatException, NullPointerException{
+    public boolean checkNumber(String strNum) throws NullPointerException, IllegalArgumentException{
         try{
             double d = Double.parseDouble(strNum);
             if(d <= 0){
