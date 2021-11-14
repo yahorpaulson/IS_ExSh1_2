@@ -15,6 +15,11 @@ public class EnginePanel extends JPanel {
 
         setLayout(null);
 
+        JLabel exceptionLabel = new JLabel();
+        exceptionLabel.setBounds(200, 400, 200, 20);
+        exceptionLabel.setForeground(Color.RED);
+        add(exceptionLabel);
+
         //region Circle
 
         JLabel radius = new JLabel("Radius: ");
@@ -48,10 +53,14 @@ public class EnginePanel extends JPanel {
         add(calculateC);
 
         calculateC.addActionListener(e ->{
-            circle.setRadius(Double.parseDouble(radiusText.getText()));
-            resultArea.setText(String.format("%.2f",circle.calculateArea()));
-            resultPerimeter.setText(String.format("%.2f",circle.calculatePerimeter()));
-
+            if (!checker.checkNumber(radiusText.getText())){
+                exceptionLabel.setText("Not correct data!");
+            } else {
+                exceptionLabel.setText("");
+                circle.setRadius(Double.parseDouble(radiusText.getText()));
+                resultArea.setText(String.format("%.2f", circle.calculateArea()));
+                resultPerimeter.setText(String.format("%.2f", circle.calculatePerimeter()));
+            }
 
         });
         //endregion
@@ -97,10 +106,16 @@ public class EnginePanel extends JPanel {
         add(calculateRectangle);
 
         calculateRectangle.addActionListener(e ->{
-            rectangle.setLength(Double.parseDouble(lengthText.getText()));
-            rectangle.setWidth(Double.parseDouble(widthText.getText()));
-            resultAreaRectangle.setText(String.format("%.2f",rectangle.calculateArea()));
-            resultPerimeterRectangle.setText(String.format("%.2f",rectangle.calculatePerimeter()));
+            if(!((checker.checkNumber(widthText.getText())&&(checker.checkNumber(lengthText.getText()))))){
+                exceptionLabel.setText("Not correct data!");
+            } else {
+                exceptionLabel.setText("");
+                rectangle.setLength(Double.parseDouble(lengthText.getText()));
+                rectangle.setWidth(Double.parseDouble(widthText.getText()));
+                resultAreaRectangle.setText(String.format("%.2f",rectangle.calculateArea()));
+                resultPerimeterRectangle.setText(String.format("%.2f",rectangle.calculatePerimeter()));
+            }
+
 
         });
 
@@ -153,13 +168,15 @@ public class EnginePanel extends JPanel {
         calculateTriangle.setBounds(350,340,100, 20);
         add(calculateTriangle);
 
-        JLabel exceptionLabel = new JLabel();
-        exceptionLabel.setBounds(200, 400, 200, 20);
-        exceptionLabel.setForeground(Color.RED);
-        add(exceptionLabel);
+
 
         calculateTriangle.addActionListener(e ->{
-            if(!checker.check(Double.parseDouble(sideAText.getText()),Double.parseDouble(sideBText.getText()), Double.parseDouble(sideCText.getText()))){
+            if(!((checker.checkNumber(sideAText.getText()))&&
+                    (checker.checkNumber(sideBText.getText()))&&
+                    (checker.checkNumber(sideCText.getText())))){
+                exceptionLabel.setText("Not correct data!");
+                throw new NumberFormatException("Please enter the correct number");
+            } else if(!checker.checkTriangle(Double.parseDouble(sideAText.getText()),Double.parseDouble(sideBText.getText()), Double.parseDouble(sideCText.getText()))){
                 exceptionLabel.setText("Illegal Argument Exception!");
                 throw new IllegalArgumentException("Not a triangle!");
             } else {
